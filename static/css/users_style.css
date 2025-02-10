@@ -1,0 +1,58 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+h3 {
+    text-align: center;
+}
+
+.form {
+    display: inline-block;
+    text-align: center;
+    width: 350px;
+}
+
+.btn-enter {
+    margin-top: 20px;
+}
+
+.form-panel {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+    vertical-align: center;
+}
+
+.form-panel > label {
+    margin-right: 30px;
+}
+
+.outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.form > form > .div-parent {
+    display: flex;
+    justify-content: right;
+}
+
+.form-panel > img {
+    width: 20px;
+    height: 20px;
+    display: inline;
+    margin-left: -20px;
+    vertical-align: middle;
+}
+
+
+#togglePasswordBtn {
+    width: 20px;
+    height: 20px;
+    display: inline;
+    margin-left: -20px;
+    vertical-align: middle;
+}

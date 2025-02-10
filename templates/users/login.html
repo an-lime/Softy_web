@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="{% static 'css/users_style.css' %}">
+    <link rel="icon" href="{% static "images/icon.jpg" %}">
+</head>
+
+<body>
+
+<div class="outer">
+    <div class="parent-form">
+        <h3>Авторизация</h3>
+        <div class="form">
+            <form action="{% url "user:login" %}" method="post">
+                {% csrf_token %}
+
+                {% if request.GET.next %}
+                    <input type="hidden" name="next" value={{ request.GET.next }}>
+                {% endif %}
+
+                <div class="form-panel">
+                    <label for="id_username">Имя пользователя</label>
+                    <input type="text" name="username"
+                           value="{% if form.username.value %}{{ form.username.value }}{% endif %}" autofocus required>
+                </div>
+                <div class="form-panel">
+                    <label for="id_password">Пароль</label>
+                    <input type="password" id="password" class="password" name="password" required>
+                    <img id="togglePasswordBtn" src={% static "images/password_show.png" %}>
+
+                </div>
+
+                {% include 'includes/notifications.html' %}
+
+                <button class="btn-enter">Войти</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+<script>
+    const pathToImages = '{% static "images/" %}';
+</script>
+<script src="{% static " js/users.js" %}"></script>
+
+</html>
