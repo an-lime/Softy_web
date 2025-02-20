@@ -1,20 +1,47 @@
-body {
-    margin: 0;
-    padding: 0;
-}
-
 h3 {
     text-align: center;
 }
 
 .form {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
     text-align: center;
-    width: 350px;
+    width: 450px;
+    margin-bottom: 50px;
+    margin-top: 30px;
+}
+
+.outer-form {
+    display: flex;
+    justify-content: center;
+}
+
+.parent-form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: fit-content;
+    margin-bottom: 20px;
+    height: 320px;
+    background-color: rgb(206, 198, 255);
+    border: 5px solid rgb(189, 179, 255);
+    border-radius: 10px;
+    padding: 20px;
 }
 
 .btn-enter {
     margin-top: 20px;
+    padding: 5px 15px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.btn-enter:hover {
+    background-color: rgb(208, 243, 243);
+}
+
+.btn-enter:active {
+    background-color: rgb(192, 255, 255);
 }
 
 .form-panel {
@@ -24,30 +51,9 @@ h3 {
     vertical-align: center;
 }
 
-.form-panel > label {
+.form-panel>label {
     margin-right: 30px;
 }
-
-.outer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-}
-
-.form > form > .div-parent {
-    display: flex;
-    justify-content: right;
-}
-
-.form-panel > img {
-    width: 20px;
-    height: 20px;
-    display: inline;
-    margin-left: -20px;
-    vertical-align: middle;
-}
-
 
 #togglePasswordBtn {
     width: 20px;

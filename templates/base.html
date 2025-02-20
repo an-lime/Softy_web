@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
+    <link rel="icon" href="{% static "images/icon.jpg" %}">
+    {% block css %}{% endblock %}
+    <title>{{ title }}</title>
+</head>
+<body>
+<div class="parent">
+    <div class="left-column">
+        <div class="div-logo">
+            <a href="#" class="softy-logo">Softy</a>
+        </div>
+        <div class="left-column-content">
+
+            <!-- <div class="profile-div">
+                <a href="#" id="login-a">Авторизация</a>
+                <a href="#" id="register-a">Регистрация</a>
+            </div> -->
+
+            <div class="profile-div">
+                <img src="https://kamtk.ru:9096/el-zurnal/el-dnevnik/Css/image1/profile.png" alt="profile_image"
+                     class="img_profile">
+                <a href="#">Профиль</a>
+            </div>
+
+            <div class="left-column-content-a">
+                <a href="#">Ваши лайки</a>
+                <a href="#">Ваши комментарии</a>
+                <a href="{% url 'user:logout' %}">Выйти</a>
+            </div>
+        </div>
+    </div>
+    <div class="right-column-parent">
+        <div class="right-column">
+            <div class="up-panel">
+                <form action="#" method="get" class="form-search">
+                    <input type="text" placeholder="Найти пост">
+                    <button type="submit">Поиск</button>
+                </form>
+                <a href="#">Добавить пост</a>
+            </div>
+            <div class="right-column-content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block js %}{% endblock %}
+
+</body>
+</html>

@@ -1,75 +1,34 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="ru">
+{% block css %}
+    <link rel="stylesheet" href="{% static "css/users_style.css" %}">
+{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
-    <link rel="stylesheet" href="{% static 'css/users_style.css' %}">
-    <link rel="icon" href="{% static "images/icon.jpg" %}">
-</head>
-
-<body>
-
-<div class="outer">
-    <div class="parent-form">
-        <h3>Регистрация</h3>
-        <div class="form">
-            <form action="{% url " user:register" %}" method="post">
-                {% csrf_token %}
-
-                <div class="form-panel">
-                    <label for="id_username">Имя пользователя*</label>
-                    <input type="text" name="username"
-                           value="{% if form.username.value %}{{ form.username.value }}{% endif %}" required>
-
-                </div>
-                {% if form.username.errors %}
-                    <div>
-                        {{ form.username.errors }}
+{% block content %}
+    <div class="outer-form">
+        <div class="parent-form">
+            <h3>Регистрация</h3>
+            <div class="form">
+                <form action="{% url "user:register" %}" method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-panel">
+                        <label for="id_username">Имя пользователя*</label>
+                        <input type="text" name="username" required>
                     </div>
-
-                {% endif %}
-
-                <div class="form-panel">
-                    <label for="password1">Пароль*</label>
-                    <input type="password" name="password1" id="password"
-                           value="{% if form.password1.value %}{{ form.password1.value }}{% endif %}" required>
-
-                    <img id="togglePasswordBtn" src={% static "images/password_show.png" %}>
-
-
-                </div>
-                {% if form.password1.errors %}
-                    <div>
-                        {{ form.password1.errors }}
+                    <div class="form-panel">
+                        <label for="password1">Пароль*</label>
+                        <input type="password" name="password1" id="password" required>
+                        <img id="togglePasswordBtn" src={% static "images/password_show.png" %}>
                     </div>
-
-                {% endif %}
-
-                <div class="form-panel">
-                    <label for="password2" class="form-label">Повторите пароль*</label>
-                    <input type="password" name="password2" id="password2" required>
-
-                </div>
-                {% if form.password2.errors %}
-                    <div>
-                        {{ form.password2.errors }}
+                    <div class="form-panel">
+                        <label for="password2" class="form-label">Повторите пароль*</label>
+                        <input type="password" name="password2" id="password2" required>
                     </div>
-                {% endif %}
-
-                <button class="btn-enter">Зарегистрироваться</button>
-            </form>
+                    <button class="btn-enter">Зарегистрироваться</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-</body>
-
-<script>
-    const pathToImages = '{% static "images/" %}';
-</script>
-<script src="{% static " js/users.js" %}"></script>
-
-</html>
+{% endblock %}

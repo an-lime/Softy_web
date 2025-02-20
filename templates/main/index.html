@@ -1,26 +1,108 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!doctype html>
-<html lang="ru">
+{% block css %}
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
+{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ title }}</title>
-    <link rel="stylesheet" href="{% static 'css/main_style.css' %}">
-    <link rel="icon" href="{% static "images/icon.jpg" %}">
-</head>
+{% block content %}
+    <div class="post_in_news_feed">
+        <div class="post-img-div">
+            <img class="post-img" src="{% static "images/Снимок экрана 2024-10-04 102759.pn" %}" alt="">
+        </div>
+        <div class="container-text">
+            <div class="middle-container-text">
+                <div class="post-text">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt blanditiis
+                    accusantium
+                    porro, delectus natus laboriosam earum quas saepe. Sit esse tempore quam similique
+                    quia
+                    autem ipsum eligendi atque, facilis nam.
+                    Rerum neque, corrupti dolorum harum veritatis quasi modi assumenda ipsum omnis
+                    corporis
+                    blanditiis laborum odit id eaque, fugit in velit! Adipisci dignissimos quasi libero
+                    sunt
+                    rerum aut, fugiat voluptate repellendus!
+                    Dolores officia, corrupti corporis inventore reprehenderit sit facilis fugiat vitae
+                    dignissimos nulla sint impedit beatae temporibus voluptatem ex, odit quisquam error
+                    repellat neque cumque. Alias possimus vero saepe ullam quia!
+                    Sit repudiandae harum aut ad, repellendus quis explicabo soluta maiores reiciendis
+                    alias
+                    quod laboriosam expedita minima unde voluptatem cupiditate cumque optio magnam amet
+                    vero
+                    consectetur sapiente iusto ut. Perspiciatis, sunt.
+                    Aliquam dolorum reprehenderit voluptatibus eum obcaecati modi optio libero, dicta
+                    rerum!
+                    Saepe repudiandae ducimus molestiae deserunt! Enim doloribus nulla, placeat nobis
+                    est
+                    alias unde cum, atque beatae voluptatibus, expedita assumenda.
+                    Tenetur officiis illum eligendi iusto inventore cupiditate, est recusandae harum
+                    doloremque commodi tempore, eveniet voluptate, sit pariatur aliquid nulla suscipit
+                    eaque
+                    itaque error. Suscipit veniam facere eos obcaecati reprehenderit aspernatur!
+                    Consequuntur eos delectus reprehenderit deserunt tempora fuga iste veritatis cumque
+                    quae
+                    quis soluta qui quas dolores minima molestiae corrupti natus maxime nesciunt impedit
+                    assumenda sequi, dignissimos vel expedita. Officia, facere.
+                    Soluta dolorum qui vitae hic fugiat, voluptatum sequi, est consectetur dolor animi a
+                    rerum similique impedit magnam, quibusdam ipsa. Vero, vel fuga accusantium ipsam
+                    deleniti rem ea eligendi omnis aliquid.
+                    Molestias voluptate culpa molestiae ipsam dolor quidem laudantium assumenda veniam
+                    mollitia ex ullam explicabo maxime nostrum illum odio aperiam fugiat eaque, aliquid
+                    officia et. Tempora illo aliquam iure nostrum libero.
+                    Qui adipisci officia tempora. Quas provident sit eum explicabo, reiciendis nulla
+                    corrupti. Facilis, possimus dolorum blanditiis maxime laboriosam accusantium
+                    provident
+                    harum cumque officia temporibus ipsa natus mollitia pariatur corrupti facere.
+                </div>
+            </div>
+            <div class="more-button-div">
+                <div class="more-button">
+                    Показать полностью
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post_in_news_feed">
+        <div class="post-img-div">
+            <img class="post-img" src="../photo_2025-02-14_18-10-16.jpg" alt="">
+        </div>
+        <div class="container-text">
+            <div class="middle-container-text">
+                <div class="post-text">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore non
+                    dolores voluptatem tempore corrupti ad eaque. Aperiam ut odit assumenda quaerat?
+                    Adipisci doloremque asperiores iure consequatur culpa reprehenderit vel.
+                </div>
+            </div>
+            <div class="more-button-div">
+                <div class="more-button">
+                    Показать полностью
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post_in_news_feed">
+        <div class="post-img-div">
+            <img class="post-img" src="../photo_2025-02-14_18-10-16.jpg" alt="">
+        </div>
+        <div class="container-text">
+            <div class="middle-container-text">
+                <div class="post-text">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore non
+                    dolores voluptatem tempore corrupti ad eaque. Aperiam ut odit assumenda quaerat?
+                    Adipisci doloremque asperiores iure consequatur culpa reprehenderit vel.
+                </div>
+            </div>
+            <div class="more-button-div">
+                <div class="more-button">
+                    Показать полностью
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
-<body>
-
-<div>
-
-    <h1><b> Виселица </b></h1>
-
-</div>
-
-</body>
-
-</html>
+{% block js %}
+	<script src="{% static "js/index.js" %}"></script>
+{% endblock %}

@@ -1,5 +1,4 @@
-const togglePassword =
-    document.getElementById('togglePasswordBtn');
+const togglePassword = document.getElementById('togglePasswordBtn');
 
 const password =
     document.getElementById('password');
@@ -15,17 +14,24 @@ togglePassword.addEventListener('click', function (e) {
 
     if (password.getAttribute(
         'type') === 'password') {
-        togglePassword.src = pathToImages.concat("password_show.png");
+        togglePassword.src = pathToImages.concat("password_hide.png");
     } else {
         togglePassword.src =
-            pathToImages.concat("password_hide.png");
+            pathToImages.concat("password_show.png");
     }
 
     if (password2 != null) {
-        console.log(123)
         password2.setAttribute('type', password.getAttribute('type'))
     }
-
-    if (password2 == null) {
-        console.log(1234)}
 });
+
+const url = window.location.href;
+const paramNext = new URL(url).searchParams.get("next");
+if (paramNext) {
+    const form = document.getElementById("form-login");
+    var input = document.createElement("input")
+    input.type = "hidden";
+    input.name = "next"
+    input.value = paramNext;
+    form.insertAdjacentElement("afterbegin", input);
+}
