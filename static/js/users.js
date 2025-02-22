@@ -1,19 +1,19 @@
 const togglePassword = document.getElementById('togglePasswordBtn');
 const password = document.getElementById('password');
 const password2 = document.getElementById('password2');
-const form = document.getElementById("form-login");
+const form_login = document.getElementById("form-login");
 const inputLogin = document.getElementById("username");
 
 function setNext() {
     const url = window.location.href;
     const paramNext = new URL(url).searchParams.get("next");
     if (paramNext) {
-        const form = document.getElementById("form-login");
+        const form_login = document.getElementById("form-login");
         let input = document.createElement("input")
         input.type = "hidden";
         input.name = "next"
         input.value = paramNext;
-        form.insertAdjacentElement("afterbegin", input);
+        form_login.insertAdjacentElement("afterbegin", input);
     }
 }
 
@@ -45,6 +45,6 @@ window.addEventListener("load", () => {
     setNext();
 })
 
-form.addEventListener("submit", () => {
+form_login.addEventListener("submit", () => {
     localStorage.setItem("username", inputLogin.value)
 })

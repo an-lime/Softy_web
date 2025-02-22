@@ -14,11 +14,11 @@
                     {% csrf_token %}
 
                     <div class="form-panel">
-                        <label for="id_username">Имя пользователя</label>
+                        <label for="username">Имя пользователя</label>
                         <input id="username" type="text" name="username" autofocus required>
                     </div>
                     <div class="form-panel">
-                        <label for="id_password">Пароль</label>
+                        <label for="password">Пароль</label>
                         <input type="password" id="password" class="password" name="password" required
                                autocomplete="on">
                         <img id="togglePasswordBtn" src={% static "images/password_show.png" %}>

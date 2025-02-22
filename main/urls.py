@@ -3,5 +3,7 @@ from main import views
 
 app_name = 'main'
 urlpatterns: list[URLPattern] = [
-    path("softy/", views.index, name="index"),
+
+    path('get_current_user/', views.get_current_user, name='get_current_user'),
+    path("", views.index, name="index"),
 ]
