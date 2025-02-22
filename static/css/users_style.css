@@ -1,3 +1,9 @@
+.div-parent {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}
+
 h3 {
     text-align: center;
 }

@@ -3,5 +3,5 @@ from main import views
 
 app_name = 'main'
 urlpatterns: list[URLPattern] = [
-    path("", views.index, name="index"),
+    path("softy/", views.index, name="index"),
 ]

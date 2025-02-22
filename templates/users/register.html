@@ -12,10 +12,11 @@
             <div class="form">
                 <form action="{% url "user:register" %}" method="post">
                     {% csrf_token %}
-                    
+
                     <div class="form-panel">
                         <label for="id_username">Имя пользователя*</label>
-                        <input type="text" name="username" required>
+                        <input type="text" name="username"
+                               value="{% if form.username.value %}{{ form.username.value }}{% endif %}" required>
                     </div>
                     <div class="form-panel">
                         <label for="password1">Пароль*</label>

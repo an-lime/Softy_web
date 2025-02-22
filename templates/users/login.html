@@ -15,14 +15,18 @@
 
                     <div class="form-panel">
                         <label for="id_username">Имя пользователя</label>
-                        <input type="text" name="username" autofocus required>
+                        <input id="username" type="text" name="username" autofocus required>
                     </div>
                     <div class="form-panel">
                         <label for="id_password">Пароль</label>
-                        <input type="password" id="password" class="password" name="password" required>
-                        <img id="togglePasswordBtn" src={% static "images/password_hide.png" %}>
+                        <input type="password" id="password" class="password" name="password" required
+                               autocomplete="on">
+                        <img id="togglePasswordBtn" src={% static "images/password_show.png" %}>
                     </div>
-                    <button class="btn-enter">Войти</button>
+
+                    {% include 'includes/notifications.html' %}
+
+                    <button id="btn-enter" class="btn-enter">Войти</button>
                 </form>
             </div>
         </div>
