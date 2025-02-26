@@ -10,26 +10,29 @@
         <div class="parent-form">
             <h3>Регистрация</h3>
             <div class="form">
-                <form action="{% url "user:register" %}" method="post">
+                <form id="form-register" action="{% url "user:register" %}" method="post">
                     {% csrf_token %}
 
                     <div class="form-panel">
                         <label for="id_username">Имя пользователя*</label>
-                        <input type="text" name="username"
-                               value="{% if form.username.value %}{{ form.username.value }}{% endif %}" required>
+                        <input type="text" name="username" id="username" required>
                     </div>
                     <div class="form-panel">
                         <label for="password1">Пароль*</label>
-                        <input type="password" name="password1" id="password" required>
+                        <input type="password" name="password1" id="password1" required autocomplete>
                         <img id="togglePasswordBtn" src={% static "images/password_show.png" %}>
                     </div>
                     <div class="form-panel">
                         <label for="password2" class="form-label">Повторите пароль*</label>
-                        <input type="password" name="password2" id="password2" required>
+                        <input type="password" name="password2" id="password2" required autocomplete>
                     </div>
                     <button class="btn-enter">Зарегистрироваться</button>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+        const pathToImages = '{% static "images/" %}';
+    </script>
+    <script src="{% static "js/users/register.js" %}"></script>
 {% endblock %}

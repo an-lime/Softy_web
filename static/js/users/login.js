@@ -1,6 +1,5 @@
 const togglePassword = document.getElementById('togglePasswordBtn');
 const password = document.getElementById('password');
-const password2 = document.getElementById('password2');
 const form_login = document.getElementById("form-login");
 const inputLogin = document.getElementById("username");
 
@@ -29,10 +28,6 @@ togglePassword.addEventListener('click', () => {
     } else {
         togglePassword.src =
             pathToImages.concat("password_hide.png");
-    }
-
-    if (password2 != null) {
-        password2.setAttribute('type', password.getAttribute('type'))
     }
 });
 
