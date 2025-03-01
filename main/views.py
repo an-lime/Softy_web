@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotFound
+from django.http import JsonResponse, HttpResponseNotFound
 from django.shortcuts import render
 
 
@@ -16,8 +16,4 @@ def get_current_user(request):
 
 @login_required
 def index(request):
-    context = {
-        'title': 'Home',
-    }
-
-    return render(request, 'main/index.html', context)
+    return render(request, 'main/index.html')

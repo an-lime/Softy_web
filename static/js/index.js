@@ -23,3 +23,7 @@ wrapperContainer.forEach(wrapper => {
 
     moreButton.addEventListener('click', toggleText);
 })
+
+window.addEventListener("load", () => {
+    document.title = "Главная"
+})

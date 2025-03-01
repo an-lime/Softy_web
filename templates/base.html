@@ -14,15 +14,26 @@
 <div class="parent">
     <div class="left-column">
         <div class="div-logo">
-            <a href="#" class="softy-logo">Softy</a>
+            <a href="{% url 'main:index' %}" class="softy-logo">Softy</a>
         </div>
         <div id="left-column-content" class="left-column-content">
 
-            <!-- кнопки авторизации и регистрации -->
-            <!-- или профиль пользователя -->
-            <!-- подгружаются в base.js -->
+            {% if user.is_authenticated %}
+                <div class="profile-div">
+                    <img src="https://kamtk.ru:9096/el-zurnal/el-dnevnik/Css/image1/profile.png"
+                         alt="profile_image"
+                         class="img_profile">
+                    <a href="{% url 'user:profile' %}">Профиль</a>
+                </div>
+            {% else %}
+                <div class="profile-div">
+                    <a href="{% url 'user:login' %}" id="login-a">Авторизация</a>
+                    <a href="{% url 'user:register' %}" id="register-a">Регистрация</a>
+                </div>
+            {% endif %}
 
-            <div class="left-column-content-a">
+            <div id="left-column-content-a" class="left-column-content-a">
+                <a id="btn-your-likes" href="{% url 'main:index' %}">Лента новостей</a>
                 <a id="btn-your-likes" href="#">Ваши лайки</a>
                 <a id="btn-your-comments" href="#">Ваши комментарии</a>
                 <a id="btn-exit" href="{% url 'user:logout' %}">Выйти</a>
@@ -31,13 +42,9 @@
     </div>
     <div class="right-column-parent">
         <div class="right-column">
-            <div class="up-panel">
-                <form action="#" method="get" class="form-search">
-                    <input type="text" placeholder="Найти пост">
-                    <button type="submit">Поиск</button>
-                </form>
-                <a href="#">Добавить пост</a>
-            </div>
+
+            {% block up_panel %}{% endblock %}
+
             <div class="right-column-content">
 
                 {% block content %}{% endblock %}

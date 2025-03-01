@@ -33,6 +33,8 @@ togglePassword.addEventListener('click', () => {
 
 window.addEventListener("load", () => {
 
+    document.title = "Авторизация";
+
     if (localStorage.getItem("username")) {
         inputLogin.value = localStorage.getItem("username");
     }

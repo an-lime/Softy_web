@@ -25,6 +25,8 @@ togglePassword.addEventListener('click', () => {
 
 window.addEventListener("load", () => {
 
+    document.title = "Регистрация";
+
     if (localStorage.getItem("username")) {
         username.value = localStorage.getItem("username");
     }
