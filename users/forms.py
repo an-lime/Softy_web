@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
-from users.models import User
+from users.models import Users
 
 
 class UserLoginForm(AuthenticationForm):
@@ -9,15 +9,17 @@ class UserLoginForm(AuthenticationForm):
     password = forms.CharField()
 
     class Meta:
-        model = User
+        model = Users
         fields = ('username', 'password')
 
 
 class UserRegistrationForm(UserCreationForm):
     username = forms.CharField()
+    first_name = forms.CharField()
+    last_name = forms.CharField()
     password1 = forms.CharField()
     password2 = forms.CharField()
 
     class Meta:
-        model = User
-        fields = ('username', 'password1', 'password2')
+        model = Users
+        fields = ('username', 'first_name', 'last_name', 'password1', 'password2')

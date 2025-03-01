@@ -2,9 +2,23 @@
 {% load static %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static "css/" %}">
+    <link rel="stylesheet" href="{% static 'css/users/user_style_profile.css' %}">
 {% endblock %}
 
 {% block content %}
-	content
+    <div class="outer-profile">
+        <div class="parent-profile">
+            <div class="div-info">
+                <img id="img-profile-menu" src="https://kamtk.ru:9096/el-zurnal/el-dnevnik/Css/image1/profile.png" alt="profile_photo">
+                <div class="main-profile-info">
+                    <div id="div-fio">
+                        <label id="user_first_name" for="user_first_name"></label>
+                        <label id="user_last_name" for="user_last_name"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{% static "js/users/profile.js" %}"></script>
 {% endblock %}

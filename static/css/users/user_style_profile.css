@@ -1,0 +1,35 @@
+.outer-profile {
+    display: flex;
+    justify-content: center;
+    margin-top: 95px;
+}
+
+.parent-profile {
+    height: 320px;
+    width: 1000px;
+    background-color: rgb(206, 198, 255);
+    border: 5px solid rgb(189, 179, 255);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.div-info {
+    display: flex;
+    align-items: center;
+    height: 250px;
+}
+
+#img-profile-menu {
+    height: 70%;
+    margin-left: 20px;
+}
+
+.main-profile-info {
+    margin-left: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+#div-fio > label {
+    font-size: 20px;
+}

@@ -1,4 +1,3 @@
-const leftColumnContent = document.getElementById('left-column-content')
 const left_column_content_a = document.getElementById("left-column-content-a")
 const btnExit = document.getElementById("btn-exit")
 
@@ -7,26 +6,6 @@ if (btnExit != null) {
         localStorage.clear();
     })
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-    fetch('/get_current_user/', {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken'),
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (btnExit != null) {
-                if (data['is_authenticated']) {
-                    left_column_content_a.style.display = 'flex'
-                } else {
-                    left_column_content_a.style.display = 'none'
-                }
-            }
-        })
-})
 
 function getCookie(name) {
     let cookieValue = null;

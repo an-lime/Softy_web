@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static "css/users_style.css" %}">
+    <link rel="stylesheet" href="{% static "css/users/users_style.css" %}">
 {% endblock %}
 
 {% block content %}
@@ -14,13 +14,21 @@
                     {% csrf_token %}
 
                     <div class="form-panel">
-                        <label for="id_username">Имя пользователя*</label>
+                        <label for="username">Логин*</label>
                         <input type="text" name="username" id="username" required>
+                    </div>
+                    <div class="form-panel">
+                        <label for="first_name">Имя*</label>
+                        <input type="text" name="first_name" id="first_name" required>
+                    </div>
+                    <div class="form-panel">
+                        <label for="last_name">Фамилия*</label>
+                        <input type="text" name="last_name" id="last_name" required>
                     </div>
                     <div class="form-panel">
                         <label for="password1">Пароль*</label>
                         <input type="password" name="password1" id="password1" required autocomplete>
-                        <img id="togglePasswordBtn" src={% static "images/password_show.png" %}>
+                        <img id="togglePasswordBtn" alt="" src={% static "images/password_show.png" %}>
                     </div>
                     <div class="form-panel">
                         <label for="password2" class="form-label">Повторите пароль*</label>

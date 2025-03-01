@@ -1,3 +1,28 @@
+.up-panel {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(247, 209, 209);
+    border: 5px solid rgb(247, 201, 201);
+    border-radius: 30px;
+    padding: 5px 20px;
+}
+
+.up-panel>* {
+    margin: auto 0;
+}
+
+.form-search {
+    display: flex;
+    gap: 10px;
+    height: 25px;
+}
+
+.right-column-content {
+    height: 80%;
+    border-radius: 15px;
+    margin-top: 50px;
+}
+
 .post_in_news_feed {
     display: flex;
     margin-bottom: 20px;
