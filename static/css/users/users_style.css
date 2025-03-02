@@ -36,6 +36,15 @@ h3 {
     padding: 20px;
 }
 
+#form-register {
+    text-align: center;
+}
+
+.outer-form-panel {
+    width: fit-content;
+    display: inline-block;
+}
+
 .btn-enter {
     margin-top: 20px;
     padding: 5px 15px;
@@ -58,7 +67,7 @@ h3 {
     vertical-align: center;
 }
 
-.form-panel>label {
+.form-panel > label {
     margin-right: 30px;
 }
 

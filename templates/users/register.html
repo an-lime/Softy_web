@@ -10,30 +10,37 @@
         <div class="parent-form">
             <h3>Регистрация</h3>
             <div class="form">
-                <form id="form-register" action="{% url "user:register" %}" method="post">
+                <form id="form-register" action="{% url "user:register" %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
+                    <div class="outer-form-panel">
+                        <div class="form-panel">
+                            <label for="username">Логин*</label>
+                            <input type="text" name="username" id="username" required>
+                        </div>
+                        <div class="form-panel">
+                            <label for="first_name">Имя*</label>
+                            <input type="text" name="first_name" id="first_name" required>
+                        </div>
+                        <div class="form-panel">
+                            <label for="last_name">Фамилия*</label>
+                            <input type="text" name="last_name" id="last_name" required>
+                        </div>
+                        <div class="form-panel">
+                            <label for="password1">Пароль*</label>
+                            <input type="password" name="password1" id="password1" required autocomplete>
+                            <img id="togglePasswordBtn" alt="" src={% static "images/password_show.png" %}>
+                        </div>
+                        <div class="form-panel">
+                            <label for="password2" class="form-label">Повторите пароль*</label>
+                            <input type="password" name="password2" id="password2" required autocomplete>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="form-panel">
+                        <label for="avatar" class="form-label">Изображение профиля</label>
+                        <input type="file" accept="image/png, image/jpeg" name="avatar" id="avatar">
+                    </div>
 
-                    <div class="form-panel">
-                        <label for="username">Логин*</label>
-                        <input type="text" name="username" id="username" required>
-                    </div>
-                    <div class="form-panel">
-                        <label for="first_name">Имя*</label>
-                        <input type="text" name="first_name" id="first_name" required>
-                    </div>
-                    <div class="form-panel">
-                        <label for="last_name">Фамилия*</label>
-                        <input type="text" name="last_name" id="last_name" required>
-                    </div>
-                    <div class="form-panel">
-                        <label for="password1">Пароль*</label>
-                        <input type="password" name="password1" id="password1" required autocomplete>
-                        <img id="togglePasswordBtn" alt="" src={% static "images/password_show.png" %}>
-                    </div>
-                    <div class="form-panel">
-                        <label for="password2" class="form-label">Повторите пароль*</label>
-                        <input type="password" name="password2" id="password2" required autocomplete>
-                    </div>
                     <button class="btn-enter">Зарегистрироваться</button>
                 </form>
             </div>

@@ -1,3 +1,5 @@
+const userAvatarProfile = document.getElementById('img-profile-menu')
+
 window.addEventListener("load", () => {
 
     document.title = "Профиль";
@@ -10,10 +12,8 @@ window.addEventListener("load", () => {
     })
         .then(response => response.json())
         .then(data => {
-            const first_name = document.getElementById('user_first_name')
-            const last_name = document.getElementById('user_last_name')
-
-            first_name.textContent = data['first_name']
-            last_name.textContent = data['last_name']
+            document.getElementById('user_first_name').textContent = data['first_name']
+            document.getElementById('user_last_name').textContent = data['last_name']
+            setAvatar(userAvatarProfile, data)
         })
 })

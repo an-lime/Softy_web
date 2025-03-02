@@ -72,9 +72,10 @@ a {
 
 .img_profile {
     align-self: center;
-    width: 200px;
+    width: 100%;
     margin-bottom: 40px;
     margin-top: 20px;
+    border-radius: 10px;
 }
 
 .left-column-content-a {

@@ -35,13 +35,15 @@ def login(request):
 def register(request):
     if request.user.is_authenticated:
         auth.logout(request)
+    context = {}
     if request.method == 'POST':
-        form = UserRegistrationForm(data=request.POST)
+        form = UserRegistrationForm(request.POST, request.FILES)
+        context = {'form': form}
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('users:login'))
 
-    return render(request, 'users/register.html')
+    return render(request, 'users/register.html', context)
 
 
 @login_required
@@ -72,5 +74,6 @@ def get_current_user(request):
         'is_authenticated': request.user.is_authenticated,
         'first_name': current_user.first_name,
         'last_name': current_user.last_name,
+        'avatar': current_user.avatar.url,
     }
     return JsonResponse(json_data)

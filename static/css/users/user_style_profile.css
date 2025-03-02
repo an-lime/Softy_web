@@ -20,6 +20,7 @@
 }
 
 #img-profile-menu {
+    border-radius: 10px;
     height: 70%;
     margin-left: 20px;
 }

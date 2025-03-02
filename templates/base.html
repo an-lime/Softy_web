@@ -20,7 +20,7 @@
 
             {% if user.is_authenticated %}
                 <div class="profile-div">
-                    <img src="https://kamtk.ru:9096/el-zurnal/el-dnevnik/Css/image1/profile.png"
+                    <img id="user_avatar" src="#"
                          alt="profile_image"
                          class="img_profile">
                     <a href="{% url 'user:profile' %}">Профиль</a>

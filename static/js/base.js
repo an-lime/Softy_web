@@ -1,11 +1,29 @@
-const left_column_content_a = document.getElementById("left-column-content-a")
 const btnExit = document.getElementById("btn-exit")
+const userAvatarBase = document.getElementById('user_avatar')
 
 if (btnExit != null) {
     btnExit.addEventListener("click", () => {
         localStorage.clear();
     })
 }
+
+function setAvatar(userAvatar, data) {
+    userAvatar.src = data['avatar']
+}
+
+window.addEventListener('load', () => {
+    fetch('/user/get_current_user/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            setAvatar(userAvatarBase, data)
+        })
+})
 
 function getCookie(name) {
     let cookieValue = null;

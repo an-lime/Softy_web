@@ -3,8 +3,14 @@ import os
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+
 class Users(AbstractUser):
-    avatar = models.ImageField(upload_to='static/images/user_avatar', null=True, blank=True, verbose_name='Аватар')
+    avatar = models.ImageField(upload_to='user_avatar/', null=True, blank=True,
+                               verbose_name='Аватар')
+
+    @property
+    def default_avatar_path(self):
+        return 'user_avatar/default_avatar.png'
 
     class Meta:
         db_table = 'users'
@@ -25,8 +31,12 @@ class Users(AbstractUser):
             try:
                 old_instance = Users.objects.get(pk=self.pk)
                 if old_instance.avatar and old_instance.avatar != self.avatar:
-                    if os.path.isfile(old_instance.avatar.path):
-                        os.remove(old_instance.avatar.path)
+                    if old_instance.avatar.name != self.default_avatar_path:
+                        if os.path.isfile(old_instance.avatar.path):
+                            os.remove(old_instance.avatar.path)
             except Users.DoesNotExist:
                 pass
+        if not self.avatar:
+            self.avatar = self.default_avatar_path
+
         super().save(*args, **kwargs)
