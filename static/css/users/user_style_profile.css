@@ -1,7 +1,7 @@
 .outer-profile {
     display: flex;
     justify-content: center;
-    margin-top: 95px;
+    margin-top: 75px;
 }
 
 .parent-profile {
@@ -10,7 +10,6 @@
     background-color: rgb(206, 198, 255);
     border: 5px solid rgb(189, 179, 255);
     border-radius: 10px;
-    padding: 20px;
 }
 
 .div-info {
