@@ -6,7 +6,6 @@ window.addEventListener("load", () => {
     fetch('/user/get_current_user/', {
         method: 'POST',
         headers: {
-            'X-CSRFToken': getCookie('csrftoken'),
             'Content-Type': 'application/json'
         }
     })

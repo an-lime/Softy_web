@@ -5,6 +5,10 @@
     border: 5px solid rgb(247, 201, 201);
     border-radius: 30px;
     padding: 5px 20px;
+    max-height: 45px;
+    min-height: 45px;
+    box-sizing: border-box;
+    margin-bottom: 30px;
 }
 
 .up-panel>* {
@@ -20,7 +24,7 @@
 .right-column-content {
     height: 80%;
     border-radius: 15px;
-    margin-top: 30px;
+
 }
 
 .post_in_news_feed {

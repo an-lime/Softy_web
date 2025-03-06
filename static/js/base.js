@@ -8,6 +8,7 @@ if (btnExit != null) {
 }
 
 function setAvatar(userAvatar, data) {
+    if (data['avatar'] != null)
     userAvatar.src = data['avatar']
 }
 
@@ -15,7 +16,6 @@ window.addEventListener('load', () => {
     fetch('/user/get_current_user/', {
         method: 'POST',
         headers: {
-            'X-CSRFToken': getCookie('csrftoken'),
             'Content-Type': 'application/json'
         }
     })

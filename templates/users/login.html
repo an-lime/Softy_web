@@ -11,7 +11,6 @@
             <h3>Авторизация</h3>
             <div class="form">
                 <form id="form-login" action="{% url "user:login" %}" method="post">
-                    {% csrf_token %}
 
                     <div class="form-panel">
                         <label for="username">Имя пользователя</label>
