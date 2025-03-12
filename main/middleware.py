@@ -1,5 +1,5 @@
-from django.http import HttpRequest, JsonResponse
-from django.shortcuts import render
+from django.http import HttpRequest, HttpResponseRedirect
+from django.urls import reverse
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -32,19 +32,14 @@ class JWTAutoRefreshMiddleware:
             validated_token = jwt_authentication.get_validated_token(access_token)
             user = jwt_authentication.get_user(validated_token)
             request.user = user
-        except (InvalidToken, TokenError) as e:
-            print('пора обновлять!!!')
+        except (InvalidToken, TokenError):
             refresh_token = request.COOKIES.get('refresh_token')
             if not refresh_token:
-                return JsonResponse({'error': 'Refresh token missing'}, status=401)
+                return HttpResponseRedirect(f"{reverse('user:login')}?next={request.path}")
 
             try:
-                print('начинаю обновлять!!!')
                 refresh = RefreshToken(refresh_token)
                 access_token_new = str(refresh.access_token)
-
-                print(access_token)
-                print(access_token_new)
 
                 jwt_authentication = JWTAuthentication()
                 validated_token = jwt_authentication.get_validated_token(access_token_new)
@@ -61,9 +56,8 @@ class JWTAutoRefreshMiddleware:
                     max_age=3600,
                 )
                 request.access_token = access_token_new
-                print('обновил!!!')
                 return response
-            except(InvalidToken, TokenError) as e:
-                return JsonResponse({'error': 'Invalid or expired refresh token'}, status=401)
+            except(InvalidToken, TokenError):
+                return HttpResponseRedirect(f"{reverse('user:login')}?next={request.path}")
 
         return self.get_response(request)

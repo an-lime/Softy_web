@@ -1,8 +1,6 @@
-from django.contrib import auth
-from django.contrib.auth.decorators import login_required
-from django.db.models.expressions import result
+from django.contrib.auth import authenticate
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseNotFound
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -22,7 +20,7 @@ def login(request):
         if form.is_valid():
             username = request.POST.get('username')
             password = request.POST.get('password')
-            user = auth.authenticate(request, username=username, password=password)
+            user = authenticate(request, username=username, password=password)
 
             if user:
                 refresh = RefreshToken.for_user(user)
@@ -30,7 +28,6 @@ def login(request):
                     'user_id': user.id,
                     'user_role': user.is_staff,
                 })
-                access_token = str(refresh.access_token)
                 refresh_token = str(refresh)
 
                 if request.POST.get('next', None):
@@ -38,14 +35,6 @@ def login(request):
                 else:
                     response = HttpResponseRedirect(reverse('main:index'))
 
-                response.set_cookie(
-                    key='access_token',
-                    value=access_token,
-                    httponly=True,
-                    secure=True,
-                    samesite='Strict',
-                    max_age=3600,
-                )
                 response.set_cookie(
                     key='refresh_token',
                     value=refresh_token,
@@ -63,8 +52,6 @@ def login(request):
 
 
 def register(request):
-    if request.user.is_authenticated:
-        auth.logout(request)
     context = {}
 
     if request.method == 'POST':
@@ -89,8 +76,10 @@ def profile(request):
 
 
 def logout(request):
-    auth.logout(request)
-    return redirect(reverse('users:login'))
+    response = HttpResponseRedirect(reverse('users:login'))
+    response.delete_cookie('access_token')
+    response.delete_cookie('refresh_token')
+    return response
 
 
 # ==================================== #
@@ -98,17 +87,16 @@ def logout(request):
 # ==================================== #
 
 def get_current_user(request):
-    if request.method == 'GET':
+    if request.headers.get('JS-Request') != 'True':
         return HttpResponseNotFound()
-    if request.user.is_authenticated:
-        current_user = Users.objects.get(pk=request.user.pk)
-    else:
+
+    if not request.user.is_authenticated:
         return JsonResponse({'is_authenticated': request.user.is_authenticated})
 
     json_data = {
         'is_authenticated': request.user.is_authenticated,
-        'first_name': current_user.first_name,
-        'last_name': current_user.last_name,
-        'avatar': current_user.avatar.url,
+        'first_name': request.user.first_name,
+        'last_name': request.user.last_name,
+        'avatar': request.user.avatar.url,
     }
     return JsonResponse(json_data)

@@ -4,8 +4,9 @@ window.addEventListener("load", () => {
 
     document.title = "Профиль";
     fetch('/user/get_current_user/', {
-        method: 'POST',
+        method: 'GET',
         headers: {
+            'JS-Request': 'True',
             'Content-Type': 'application/json'
         }
     })

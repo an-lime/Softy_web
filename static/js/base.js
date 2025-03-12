@@ -8,21 +8,25 @@ if (btnExit != null) {
 }
 
 function setAvatar(userAvatar, data) {
-    if (data['avatar'] != null)
-    userAvatar.src = data['avatar']
+    if (data['avatar'] && userAvatar) {
+        userAvatar.src = data['avatar']
+    }
 }
 
 window.addEventListener('load', () => {
-    fetch('/user/get_current_user/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            setAvatar(userAvatarBase, data)
+    if (!(window.location.href.includes('/user/login/') || window.location.href.includes('/user/register/'))) {
+        fetch('/user/get_current_user/', {
+            method: 'GET',
+            headers: {
+                'JS-Request': 'True',
+                'Content-Type': 'application/json'
+            }
         })
+            .then(response => response.json())
+            .then(data => {
+                setAvatar(userAvatarBase, data)
+            })
+    }
 })
 
 function getCookie(name) {
