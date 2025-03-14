@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from main.forms import AddNewPostForm
-from main.serializers import UserPostSerializer
+from main.serializers import UserNewPostSerializer
 
 
 # =============================================== #
@@ -29,7 +29,7 @@ class AddNewPostView(APIView):
 
         data = request.data.copy()
 
-        serializer = UserPostSerializer(data=data)
+        serializer = UserNewPostSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response({'status': 'success', 'data': serializer.data})
