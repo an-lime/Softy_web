@@ -103,6 +103,7 @@ def get_current_user(request):
         return JsonResponse({'is_authenticated': request.user.is_authenticated})
 
     json_data = {
+        'user_id': request.user.id,
         'is_authenticated': request.user.is_authenticated,
         'first_name': request.user.first_name,
         'last_name': request.user.last_name,

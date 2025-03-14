@@ -18,7 +18,7 @@
         </div>
         <div id="left-column-content" class="left-column-content">
 
-            {% if user.is_authenticated %}
+            {% if request.user.is_authenticated %}
                 <div class="profile-div">
                     <img id="user_avatar" src="#"
                          alt="profile_image"

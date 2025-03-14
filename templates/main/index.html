@@ -2,17 +2,32 @@
 {% load static %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static "css/index.css" %}">
+    <link rel="stylesheet" href="{% static "css/index/index.css" %}">
+    <link rel="stylesheet" href="{% static 'css/index/modal_add_post.css' %}">
 {% endblock %}
 
 {% block up_panel %}
-        <div class="up-panel">
-            <form action="#" method="get" class="form-search">
-                <input type="text" placeholder="Найти пост">
-                <button type="submit">Поиск</button>
+    <div class="up-panel">
+        <form action="#" method="get" class="form-search">
+            <input type="text" placeholder="Найти пост">
+            <button type="submit">Поиск</button>
+        </form>
+        <button id="openModalAddPostBtn">Добавить пост</button>
+    </div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Новый пост</h2>
+            <form id="form-add-post" method="post" enctype="multipart/form-data">
+                <textarea name="post_text" id="post_text" maxlength="3000" placeholder="Введите текст поста..."></textarea>
+                <label for="post_image">Изображение к посту </label>
+                <input type="file" name="post_image" accept="image/png, image/jpeg" id="add-post-img">
+                <div id="BtnAddPostDiv">
+                    <button type="submit" id="addPostBtn">Добавить пост</button>
+                </div>
             </form>
-            <a href="#">Добавить пост</a>
         </div>
+    </div>
 {% endblock %}
 
 {% block content %}
@@ -114,5 +129,6 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static "js/index.js" %}"></script>
+    <script src="{% static "js/index/index.js" %}"></script>
+    <script src="{% static 'js/index/modal_add_post.js' %}"></script>
 {% endblock %}
