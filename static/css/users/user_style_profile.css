@@ -33,3 +33,10 @@
 #div-fio > label {
     font-size: 20px;
 }
+
+.change-profile-btn {
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 10px;
+    margin-left: 20px;
+}

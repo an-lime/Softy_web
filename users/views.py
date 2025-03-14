@@ -4,8 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from users.forms import UserLoginForm, UserRegistrationForm
-from users.models import Users
+from users.forms import UserLoginForm, UserRegistrationForm, ProfileForm
 
 
 # =============================================== #
@@ -55,7 +54,7 @@ def register(request):
     context = {}
 
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST, request.FILES)
+        form = UserRegistrationForm(data=request.POST, files=request.FILES)
         context = {'form': form}
         if form.is_valid():
             user = form.save()
@@ -73,6 +72,16 @@ def register(request):
 
 def profile(request):
     return render(request, 'users/profile.html')
+
+
+def profile_change(request):
+    if request.method == 'POST':
+        form = ProfileForm(data=request.POST, files=request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('users:profile'))
+
+    return render(request, 'users/profile_change.html')
 
 
 def logout(request):
