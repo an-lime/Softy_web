@@ -1,6 +1,6 @@
 from django.urls import path, URLPattern
 from main import views
-from main.views import AddNewPostView
+from main.views import AddNewPostView, GetPostView
 
 app_name = 'main'
 urlpatterns: list[URLPattern] = [
@@ -8,6 +8,6 @@ urlpatterns: list[URLPattern] = [
 ]
 
 urlpatterns += [
-    # path("addNewPost/", views.add_new_post, name="add_new_post"),
     path('add-new-post/', AddNewPostView.as_view(), name='add-new-post'),
+    path('get-posts/', GetPostView.as_view(), name='get-posts'),
 ]

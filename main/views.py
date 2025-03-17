@@ -1,14 +1,13 @@
-import json
-
-from django.http import JsonResponse
+from django.core.paginator import Paginator
+from django.http import HttpResponseNotFound, JsonResponse
 from django.shortcuts import render
-from django.views import View
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from main.forms import AddNewPostForm
+from main.models import UserPost
 from main.serializers import UserNewPostSerializer
+from users.authentication import CustomJWTAuthentication
 
 
 # =============================================== #
@@ -25,27 +24,44 @@ def index(request):
 
 class AddNewPostView(APIView):
 
-    def post(self, request):
+    authentication_classes = [CustomJWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request):
+        return HttpResponseNotFound()
+
+    def post(self, request):
         data = request.data.copy()
+        data['author'] = request.user.id
 
         serializer = UserNewPostSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'status': 'success', 'data': serializer.data})
+            return Response({'status': 'success'})
         else:
-            print(serializer.errors)
-            return Response({'status': 'error', 'errors': serializer.errors}, status=400)
+            return Response({'status': 'error'}, status=400)
 
-# def add_new_post(request):
-#     if request.method == 'POST':
-#         form = AddNewPostForm(data=request.POST, files=request.FILES)
-#         if form.is_valid():
-#             print("Валид")
-#             print(form.cleaned_data)
-#             # form.save()
-#         else:
-#             print("Не валид")
-#             print(form.cleaned_data)
-#             print(form.errors)
-#     return JsonResponse({"status": "success"})
+class GetPostView(APIView):
+
+    authentication_classes = [CustomJWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if request.headers.get('JS-Request') != 'True':
+            return HttpResponseNotFound()
+
+        posts_all = UserPost.objects.all().order_by('-created_at')
+        paginator = Paginator(posts_all, 6)
+        page = request.GET.get('page')
+        post_page = paginator.page(page)
+        posts_data = [{'author_name': post.author.first_name,
+                    'author_surname': post.author.last_name,
+                    'author_ref': post.author.id,
+                    'post_text': post.post_text,
+                    'post_image': post.post_image.url if post.post_image else '',
+                    'post_date': post.created_at.strftime('%d-%m-%Y')} for post in post_page]
+
+        return JsonResponse({
+            'posts': posts_data,
+            'has_next': post_page.has_next()
+        })

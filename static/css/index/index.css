@@ -11,7 +11,7 @@
     margin-bottom: 30px;
 }
 
-.up-panel>* {
+.up-panel > * {
     margin: auto 0;
 }
 
@@ -30,7 +30,7 @@
 .post_in_news_feed {
     display: flex;
     margin-bottom: 20px;
-    height: 320px;
+    height: fit-content;
     background-color: rgb(206, 198, 255);
     border: 5px solid rgb(189, 179, 255);
     border-radius: 10px;
@@ -44,14 +44,16 @@
 }
 
 .post-img-div {
-    margin-left: 40px;
+    margin: 10px 40px 10px 10px;
     height: 100%;
     text-align: center;
 }
 
 .post-img {
     margin: 0;
-    height: 280px;
+    border-radius: 5px;
+    max-height: 280px;
+    max-width: 400px;
 }
 
 .middle-container-text {
@@ -60,13 +62,12 @@
     overflow: hidden;
     margin: 20px 10px 15px 30px;
     padding-right: 10px;
-
-    height: 250px;
+    max-height: 250px;
 
 }
 
 .middle-container-text.expanded {
-    height: fit-content;
+    max-height: fit-content;
 }
 
 .more-button-div {

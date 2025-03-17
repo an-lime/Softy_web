@@ -8,7 +8,6 @@ window.addEventListener("load", () => {
     })
         .then(response => response.json())
         .then(data => {
-            console.log(123)
             document.getElementById('first_name').value = data['first_name']
             document.getElementById('last_name').value = data['last_name']
         })

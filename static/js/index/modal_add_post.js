@@ -15,7 +15,7 @@ closeModalBtn.addEventListener('click', () => {
 addPostBtn.addEventListener('click', function (e) {
 
     e.preventDefault()
-    const postContent = document.getElementById('post_text').value;
+    let postContent = document.getElementById('post_text').value;
     if (postContent.trim() !== '') {
 
         const formData = new FormData()
@@ -25,24 +25,15 @@ addPostBtn.addEventListener('click', function (e) {
             formData.append('post_image', fileInput.files[0]);
         }
 
-        fetch('/user/get_current_user/', {
-            method: 'GET',
-            headers: {
-                'JS-Request': 'True',
-                'Content-Type': 'application/json'
-            }
+        fetch('/add-new-post/', {
+            method: 'POST',
+            body: formData,
         })
             .then(response => response.json())
-            .then(data => {
 
-                formData.append('user', data['user_id']);
-
-                fetch('/add-new-post/', {
-                    method: 'POST',
-                    body: formData,
-                })
-                    .then(response => response.json())
-            })
+        document.getElementById('post_text').value = ''
+        fileInput.value = null
+        modal.style.display = 'none';
 
     } else {
         const divError = document.getElementById('div-post-error');
