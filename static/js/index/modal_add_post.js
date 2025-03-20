@@ -11,15 +11,38 @@ closeModalBtn.addEventListener('click', () => {
     modal.style.display = 'none';
 });
 
+function checkImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+
+        const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+        const allowedExtensions = ['png', 'jpeg', 'jpg'];
+        const fileExtension = file.name.split('.').pop().toLowerCase();
+
+        if (!allowedTypes.includes(file.type) || !allowedExtensions.includes(fileExtension)) {
+            alert('Выберите файл изображения');
+            event.target.value = '';
+        } else if (file.size > 8 * 1024 * 1024) {
+            alert('Файл слишком большой. Максимальный размер - 8 Мб');
+            event.target.value = '';
+        }
+    }
+}
+
+// валидация изображения
+document.getElementById('add-post-img').addEventListener('change', (event) => {
+    checkImage(event)
+})
+
 // Добавление нового поста
 addPostBtn.addEventListener('click', function (e) {
 
     e.preventDefault()
-    let postContent = document.getElementById('post_text').value;
-    if (postContent.trim() !== '') {
+    let postContent = document.getElementById('post_text');
+    if (postContent.value.trim() !== '') {
 
         const formData = new FormData()
-        formData.append('post_text', postContent);
+        formData.append('post_text', postContent.value);
         const fileInput = document.getElementById('add-post-img');
         if (fileInput.files.length > 0) {
             formData.append('post_image', fileInput.files[0]);
@@ -30,8 +53,13 @@ addPostBtn.addEventListener('click', function (e) {
             body: formData,
         })
             .then(response => response.json())
+            .then(data => {
+                const postsContainer = document.getElementById('right-column-content')
+                postsContainer.insertAdjacentElement("afterbegin", createHtmlPost(data))
+                addMoreButton(1)
+            })
 
-        document.getElementById('post_text').value = ''
+        postContent.value = ''
         fileInput.value = null
         modal.style.display = 'none';
 

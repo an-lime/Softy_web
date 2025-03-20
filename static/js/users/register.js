@@ -36,7 +36,7 @@ form_register.addEventListener("submit", () => {
     localStorage.setItem("username", username.value);
 })
 
-document.getElementById('avatar').addEventListener('change', (event) => {
+function checkImage(event) {
     const file = event.target.files[0];
     if (file) {
 
@@ -52,4 +52,8 @@ document.getElementById('avatar').addEventListener('change', (event) => {
             event.target.value = '';
         }
     }
+}
+
+document.getElementById('avatar').addEventListener('change', (event) => {
+    checkImage(event)
 })

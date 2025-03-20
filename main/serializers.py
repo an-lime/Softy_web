@@ -9,4 +9,4 @@ class UserNewPostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserPost
-        fields = ('post_text', 'post_image', 'author')
+        fields = '__all__'

@@ -1,4 +1,4 @@
-from django.core.paginator import Paginator
+from datetime import datetime
 from django.http import HttpResponseNotFound, JsonResponse
 from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
@@ -23,7 +23,6 @@ def index(request):
 # ==================================== #
 
 class AddNewPostView(APIView):
-
     authentication_classes = [CustomJWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -37,12 +36,14 @@ class AddNewPostView(APIView):
         serializer = UserNewPostSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'status': 'success'})
+            data = serializer.data.copy()
+            data['is_author'] = True
+            return Response(data)
         else:
             return Response({'status': 'error'}, status=400)
 
-class GetPostView(APIView):
 
+class GetPostView(APIView):
     authentication_classes = [CustomJWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -50,18 +51,19 @@ class GetPostView(APIView):
         if request.headers.get('JS-Request') != 'True':
             return HttpResponseNotFound()
 
-        posts_all = UserPost.objects.all().order_by('-created_at')
-        paginator = Paginator(posts_all, 6)
-        page = request.GET.get('page')
-        post_page = paginator.page(page)
-        posts_data = [{'author_name': post.author.first_name,
-                    'author_surname': post.author.last_name,
-                    'author_ref': post.author.id,
-                    'post_text': post.post_text,
-                    'post_image': post.post_image.url if post.post_image else '',
-                    'post_date': post.created_at.strftime('%d-%m-%Y')} for post in post_page]
+        last_date_time_str = request.GET.get('lastDateTime')
+        last_date_time = datetime.strptime(last_date_time_str, '%d-%m-%Y %H:%M:%S')
+
+        posts_all = UserPost.objects.all().filter(created_at__lt=last_date_time).order_by('-created_at')[:8]
+        posts_data = [{'id': post.id,
+                       'author_name': post.author.first_name,
+                       'author_surname': post.author.last_name,
+                       'author_ref': post.author.id,
+                       'post_text': post.post_text,
+                       'post_image': post.post_image.url if post.post_image else '',
+                       'post_date': post.created_at.strftime('%d-%m-%Y %H:%M:%S'),
+                       'is_author': True if post.author.id == request.user.id else False} for post in posts_all]
 
         return JsonResponse({
             'posts': posts_data,
-            'has_next': post_page.has_next()
         })
