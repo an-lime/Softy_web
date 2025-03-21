@@ -14,6 +14,9 @@ const minutes = String(now.getMinutes()).padStart(2, '0');
 const seconds = String(now.getSeconds()).padStart(2, '0');
 let lastDateTime = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 
+window.addEventListener('scroll', onScroll);
+loadPosts()
+
 function loadPosts() {
     if (loading) return;
     loading = true;
@@ -42,9 +45,6 @@ function onScroll() {
         loadPosts()
     }
 }
-
-window.addEventListener('scroll', onScroll);
-loadPosts()
 
 function addMoreButton(isFirst = 0) {
     const wrapperContainer = document.querySelectorAll('.post_in_news_feed');
@@ -99,13 +99,18 @@ function createHtmlPost(post) {
         post['post_image'] = ""
     }
 
+    // кнопка удаления, если пользователь - автор поста
     if (post['is_author'] === true) {
         postElement.insertAdjacentHTML("afterbegin", `<div id="services-btn-parent">
                                                                         <div id="services-btn">
-                                                                            <a id="delete-post-btn">Удалить</a>
+                                                                            <label id="delete-post-btn">Удалить</label>
                                                                         </div>   
                                                                     </div>`
         )
     }
     return postElement
+}
+
+function deletePost(idPost) {
+    fetch()
 }

@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from main.models import UserPost
-from main.serializers import UserNewPostSerializer
+from main.serializers import UserPostSerializer
 from users.authentication import CustomJWTAuthentication
 
 
@@ -33,7 +33,7 @@ class AddNewPostView(APIView):
         data = request.data.copy()
         data['author'] = request.user.id
 
-        serializer = UserNewPostSerializer(data=data)
+        serializer = UserPostSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             data = serializer.data.copy()

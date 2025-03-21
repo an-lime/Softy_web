@@ -88,10 +88,27 @@
     display: flex;
     position: absolute;
     width: 100%;
-    margin-top: 5px;
+    margin-top: 10px;
     justify-content: right;
 }
 
 #services-btn {
 
+}
+
+#delete-post-btn {
+    padding: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+    border: 1px solid black;
+    border-radius: 3px;
+    background-color: #eaebeb;
+    user-select: none;
+
+    &:hover {
+        background-color: #dcdfdf;
+    }
+    &:active {
+        background-color: #a4a8a8;
+    }
 }
