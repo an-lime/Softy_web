@@ -1,5 +1,6 @@
 from django.urls import path, URLPattern
 from users import views
+from users.views import UserLoginView
 
 app_name = 'users'
 urlpatterns: list[URLPattern] = [
@@ -9,6 +10,8 @@ urlpatterns: list[URLPattern] = [
 
     # Основные пути
     path("login/", views.login, name="login"),
+    path('api/login/', UserLoginView.as_view(), name='api_login'),
+
     path("register/", views.register, name="register"),
     path("profile/", views.profile, name="profile"),
     path("profile/change/", views.profile_change, name="profile_change"),

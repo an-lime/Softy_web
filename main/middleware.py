@@ -23,7 +23,7 @@ class JWTAutoRefreshMiddleware:
         self.get_response = get_response
 
     def __call__(self, request: HttpRequest):
-        if request.path in ['/user/login/', '/user/register/', '/user/logout/', 'admin']:
+        if request.path in ['/user/api/login/', '/user/login/', '/user/register/', '/user/logout/', '/admin/']:
             return self.get_response(request)
 
         access_token = request.COOKIES.get('access_token')

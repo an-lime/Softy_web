@@ -10,6 +10,7 @@ function setNext() {
         const form_login = document.getElementById("form-login");
         let input = document.createElement("input")
         input.type = "hidden";
+        input.id = 'next'
         input.name = "next"
         input.value = paramNext;
         form_login.insertAdjacentElement("afterbegin", input);
@@ -42,6 +43,39 @@ window.addEventListener("load", () => {
     setNext();
 })
 
-form_login.addEventListener("submit", () => {
+form_login.addEventListener("submit", async function (event) {
+    event.preventDefault()
     localStorage.setItem("username", inputLogin.value)
+    const formData = new FormData(form_login)
+
+    try {
+        let response = await fetch(`/user/api/login/`, {
+            method: 'POST',
+            headers: {
+                'JS-Request': 'True',
+            },
+            body: formData,
+        });
+
+        if (response.ok) {
+            const data = await response.json()
+            window.location.href = data.redirected_url
+        } else {
+            const btnEnter = document.getElementById('btn-enter');
+            btnEnter.insertAdjacentHTML('afterend', `<div style="position: absolute" id="div-error-parent">
+                                                                        <div id="message">
+                                                                            Неверный логин или пароль!
+                                                                        </div>
+                                                                    </div>`);
+            const divErrorParent = document.getElementById('div-error-parent');
+            if (divErrorParent) {
+                setTimeout(() => {
+                    divErrorParent.remove()
+                }, 2500);
+            }
+        }
+    } catch (error) {
+        console.error('Ошибка при отправке запроса:', error);
+        alert('Произошла ошибка при авторизации. Попробуйте снова.');
+    }
 })
