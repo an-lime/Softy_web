@@ -1,10 +1,10 @@
 from datetime import datetime
+
 from django.http import HttpResponseNotFound, JsonResponse
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from main.models import UserPost
 from main.serializers import UserPostSerializer
@@ -16,6 +16,7 @@ from users.authentication import CustomJWTAuthentication
 # =============================================== #
 
 def index(request):
+    print(request.user)
     return render(request, 'main/index.html')
 
 

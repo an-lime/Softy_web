@@ -24,16 +24,33 @@ togglePassword.addEventListener('click', () => {
 });
 
 window.addEventListener("load", () => {
-
     document.title = "Регистрация";
-
-    if (localStorage.getItem("username")) {
-        username.value = localStorage.getItem("username");
-    }
 })
 
-form_register.addEventListener("submit", () => {
-    localStorage.setItem("username", username.value);
+form_register.addEventListener("submit", async function (event) {
+    event.preventDefault()
+    const formData = new FormData(form_register)
+
+    try {
+        const response = await fetch(`/user/api/auth/register/`, {
+            method: 'POST',
+            headers: {
+                'JS-Request': 'True',
+            },
+            body: formData
+        });
+        if (response.ok) {
+            const data = await response.json()
+            window.location.href = data.redirected_url
+        } else {
+            const errorData = await response.json();
+            console.log(errorData)
+        }
+
+    } catch (error) {
+        console.error('Ошибка при отправке запроса:', error);
+        alert('Произошла ошибка при регистрации. Попробуйте снова.');
+    }
 })
 
 function checkImage(event) {

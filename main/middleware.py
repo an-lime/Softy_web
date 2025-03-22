@@ -1,4 +1,4 @@
-from django.http import HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect, HttpResponseNotFound
 from django.urls import reverse
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
@@ -23,8 +23,17 @@ class JWTAutoRefreshMiddleware:
         self.get_response = get_response
 
     def __call__(self, request: HttpRequest):
-        if request.path in ['/user/api/login/', '/user/login/', '/user/register/', '/user/logout/', '/admin/']:
+        if request.path in ['/user/login/', '/user/register/', '/user/logout/']:
             return self.get_response(request)
+
+        if '/admin/' in request.path:
+            return self.get_response(request)
+
+        if '/api/' in request.path:
+            if request.headers.get('JS-Request') != 'True':
+                return HttpResponseNotFound()
+            else:
+                return self.get_response(request)
 
         access_token = request.COOKIES.get('access_token')
         try:

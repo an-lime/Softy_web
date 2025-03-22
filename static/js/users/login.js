@@ -1,7 +1,6 @@
 const togglePassword = document.getElementById('togglePasswordBtn');
 const password = document.getElementById('password');
 const form_login = document.getElementById("form-login");
-const inputLogin = document.getElementById("username");
 
 function setNext() {
     const url = window.location.href;
@@ -35,21 +34,15 @@ togglePassword.addEventListener('click', () => {
 window.addEventListener("load", () => {
 
     document.title = "Авторизация";
-
-    if (localStorage.getItem("username")) {
-        inputLogin.value = localStorage.getItem("username");
-    }
-
     setNext();
 })
 
 form_login.addEventListener("submit", async function (event) {
     event.preventDefault()
-    localStorage.setItem("username", inputLogin.value)
     const formData = new FormData(form_login)
 
     try {
-        let response = await fetch(`/user/api/login/`, {
+        const response = await fetch(`/user/api/auth/login/`, {
             method: 'POST',
             headers: {
                 'JS-Request': 'True',

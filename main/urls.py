@@ -10,8 +10,8 @@ urlpatterns: list[URLPattern] = [
 ]
 
 router = routers.DefaultRouter()
-router.register(r'posts', PostViewSet)
+router.register(r'posts', PostViewSet, basename='posts')
 
 urlpatterns += [
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
 ]

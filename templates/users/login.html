@@ -10,7 +10,7 @@
         <div class="parent-form">
             <h3>Авторизация</h3>
             <div class="form">
-                <form id="form-login" action="{% url "users:login" %}" method="post">
+                <form id="form-login">
 
                     <div class="form-panel">
                         <label for="username">Имя пользователя</label>
@@ -22,8 +22,6 @@
                                autocomplete="on">
                         <img id="togglePasswordBtn" src={% static "images/password_show.png" %}>
                     </div>
-
-{#                    {% include 'includes/notifications.html' %}#}
 
                     <button type="submit" id="btn-enter" class="btn-enter">Войти</button>
                 </form>

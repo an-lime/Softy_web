@@ -21,7 +21,7 @@ function loadPosts() {
     if (loading) return;
     loading = true;
 
-    fetch(`posts/?lastDateTime=${lastDateTime}`, {
+    fetch(`/api/posts/?lastDateTime=${lastDateTime}`, {
         method: 'GET',
         headers: {
             'JS-Request': 'True',
