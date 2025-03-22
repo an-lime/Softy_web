@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.http import HttpResponseNotFound, JsonResponse
 from django.shortcuts import render
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -22,18 +23,45 @@ def index(request):
 # ===== Функции для работы с API ===== #
 # ==================================== #
 
-class AddNewPostView(APIView):
+class PostViewSet(viewsets.ModelViewSet):
     authentication_classes = [CustomJWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        return HttpResponseNotFound()
+    queryset = UserPost.objects.all()
+    serializer_class = UserPostSerializer
 
-    def post(self, request):
+    def list(self, request, *args, **kwargs):
+        if request.headers.get('JS-Request') != 'True':
+            return HttpResponseNotFound()
+
+        last_date_time_str = request.query_params.get('lastDateTime')
+        last_date_time = datetime.strptime(last_date_time_str, '%d-%m-%Y %H:%M:%S')
+        queryset = self.get_queryset()
+        queryset = queryset.filter(created_at__lt=last_date_time).order_by('-created_at')[:8]
+        serializer = self.get_serializer(queryset, many=True)
+
+        # модификация данных
+        post_data_modified = []
+        for post in serializer.data:
+            post_data = dict(post)
+            post_data['author_name'] = post['author']['first_name']
+            post_data['author_surname'] = post['author']['last_name']
+            post_data['author_ref'] = post['author']['id']
+            post_data['post_image'] = post['post_image'] if post['post_image'] else ''
+            post_data['post_date'] = post['created_at']
+            post_data['is_author'] = True if post['author']['id'] == request.user.id else False
+            post_data_modified.append(post_data)
+
+        return JsonResponse({
+            'posts': post_data_modified,
+        })
+
+    def create(self, request, *args, **kwargs):
         data = request.data.copy()
         data['author'] = request.user.id
 
-        serializer = UserPostSerializer(data=data)
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, data=data)
         if serializer.is_valid():
             serializer.save()
             data = serializer.data.copy()
@@ -41,29 +69,3 @@ class AddNewPostView(APIView):
             return Response(data)
         else:
             return Response({'status': 'error'}, status=400)
-
-
-class GetPostView(APIView):
-    authentication_classes = [CustomJWTAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        if request.headers.get('JS-Request') != 'True':
-            return HttpResponseNotFound()
-
-        last_date_time_str = request.GET.get('lastDateTime')
-        last_date_time = datetime.strptime(last_date_time_str, '%d-%m-%Y %H:%M:%S')
-
-        posts_all = UserPost.objects.all().filter(created_at__lt=last_date_time).order_by('-created_at')[:8]
-        posts_data = [{'id': post.id,
-                       'author_name': post.author.first_name,
-                       'author_surname': post.author.last_name,
-                       'author_ref': post.author.id,
-                       'post_text': post.post_text,
-                       'post_image': post.post_image.url if post.post_image else '',
-                       'post_date': post.created_at.strftime('%d-%m-%Y %H:%M:%S'),
-                       'is_author': True if post.author.id == request.user.id else False} for post in posts_all]
-
-        return JsonResponse({
-            'posts': posts_data,
-        })

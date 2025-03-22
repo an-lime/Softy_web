@@ -21,10 +21,11 @@ function loadPosts() {
     if (loading) return;
     loading = true;
 
-    fetch(`/get-posts/?lastDateTime=${lastDateTime}`, {
+    fetch(`posts/?lastDateTime=${lastDateTime}`, {
         method: 'GET',
         headers: {
-            'JS-Request': 'True'
+            'JS-Request': 'True',
+            'Content-Type': 'application/json',
         }
     })
         .then(response => response.json())
@@ -109,8 +110,4 @@ function createHtmlPost(post) {
         )
     }
     return postElement
-}
-
-function deletePost(idPost) {
-    fetch()
 }
