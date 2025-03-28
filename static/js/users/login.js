@@ -68,7 +68,6 @@ form_login.addEventListener("submit", async function (event) {
             }
         }
     } catch (error) {
-        console.error('Ошибка при отправке запроса:', error);
         alert('Произошла ошибка при авторизации. Попробуйте снова.');
     }
 })

@@ -6,7 +6,7 @@ from users.models import Users
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
-        fields = ['id', 'first_name', 'last_name']
+        fields = ['id', 'first_name', 'last_name', 'avatar']
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
@@ -53,6 +53,5 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         validated_data['password'] = validated_data.get('password1')
         validated_data.pop('password1')
         validated_data.pop('password2')
-        print(validated_data)
         user = Users.objects.create_user(**validated_data)
         return user

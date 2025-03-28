@@ -7,8 +7,8 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from users.forms import ProfileForm
-from users.serializers import UserLoginSerializer, UserRegisterSerializer
+from users.models import Users
+from users.serializers import UserLoginSerializer, UserRegisterSerializer, UserSerializer
 
 
 # =============================================== #
@@ -23,17 +23,11 @@ def register(request):
     return render(request, 'users/register.html')
 
 
-def profile(request):
+def profile(request, user_id=None):
     return render(request, 'users/profile.html')
 
 
-def profile_change(request):
-    if request.method == 'POST':
-        form = ProfileForm(data=request.POST, files=request.FILES, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('users:profile'))
-
+def profile_change(request, user_id=None):
     return render(request, 'users/profile_change.html')
 
 
@@ -101,18 +95,24 @@ class AuthViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def get_current_user(request):
-    if request.headers.get('JS-Request') != 'True':
-        return HttpResponseNotFound()
 
-    if not request.user.is_authenticated:
-        return JsonResponse({'is_authenticated': request.user.is_authenticated})
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = Users.objects.all()
+    serializer_class = UserSerializer
 
-    json_data = {
-        'user_id': request.user.id,
-        'is_authenticated': request.user.is_authenticated,
-        'first_name': request.user.first_name,
-        'last_name': request.user.last_name,
-        'avatar': request.user.avatar.url,
-    }
-    return JsonResponse(json_data)
+    def partial_update(self, request, *args, **kwargs):
+        super().partial_update(request, *args, **kwargs)
+        user_id = kwargs.get('pk')
+        redirected_url = reverse('user:profile', kwargs={'user_id': user_id})
+        return JsonResponse(status=status.HTTP_200_OK, data={'location': redirected_url})
+
+    @action(detail=False, methods=['GET'])
+    def current_user(self, request):
+        if request.headers.get('JS-Request') != 'True':
+            return HttpResponseNotFound()
+
+        return JsonResponse({'user_id': request.user.id,
+                             'is_authenticated': request.user.is_authenticated,
+                             'first_name': request.user.first_name,
+                             'last_name': request.user.last_name,
+                             'avatar': request.user.avatar.url})

@@ -1,10 +1,3 @@
-window.addEventListener("load", () => {
-    document.title = "Главная"
-})
-
-let page = 1;
-let loading = false;
-
 const now = new Date();
 const day = String(now.getDate()).padStart(2, '0');
 const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -12,10 +5,9 @@ const year = now.getFullYear();
 const hours = String(now.getHours()).padStart(2, '0');
 const minutes = String(now.getMinutes()).padStart(2, '0');
 const seconds = String(now.getSeconds()).padStart(2, '0');
-let lastDateTime = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 
-window.addEventListener('scroll', onScroll);
-loadPosts()
+let lastDateTime = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+let loading = false;
 
 function loadPosts() {
     if (loading) return;
@@ -94,7 +86,7 @@ function createHtmlPost(post) {
 
     if (post['post_image']) {
         postElement.insertAdjacentHTML('afterbegin', `<div class="post-img-div">
-                                                                        <img class="post-img" src="${post['post_image']}">
+                                                                        <img class="post-img" alt="post-img" src="${post['post_image']}">
                                                                     </div>`)
     } else {
         post['post_image'] = ""
@@ -111,3 +103,10 @@ function createHtmlPost(post) {
     }
     return postElement
 }
+
+window.addEventListener("DOMContentLoaded", async () => {
+    document.title = "Главная";
+    loadPosts()
+})
+
+window.addEventListener('scroll', onScroll);

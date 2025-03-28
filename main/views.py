@@ -16,7 +16,6 @@ from users.authentication import CustomJWTAuthentication
 # =============================================== #
 
 def index(request):
-    print(request.user)
     return render(request, 'main/index.html')
 
 
@@ -32,8 +31,6 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = UserPostSerializer
 
     def list(self, request, *args, **kwargs):
-        if request.headers.get('JS-Request') != 'True':
-            return HttpResponseNotFound()
 
         last_date_time_str = request.query_params.get('lastDateTime')
         last_date_time = datetime.strptime(last_date_time_str, '%d-%m-%Y %H:%M:%S')

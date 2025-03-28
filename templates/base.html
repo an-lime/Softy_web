@@ -23,7 +23,7 @@
                     <img id="user_avatar" src="#"
                          alt="profile_image"
                          class="img_profile">
-                    <a href="{% url 'user:profile' %}">Профиль</a>
+                    <a id="go-profile-btn" href="{% url 'user:profile' user_id=None %}">Профиль</a>
                 </div>
             {% else %}
                 <div class="profile-div">

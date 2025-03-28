@@ -15,7 +15,7 @@
             <a href="{% url 'main:index' %}" class="softy-logo">Softy</a>
         </div>
         <div class="parent-change-div">
-            <form action="{% url 'user:profile_change' %}" method="post" class="change-form" enctype="multipart/form-data">
+            <form id="change-form" class="change-form" enctype="multipart/form-data">
                 <div class="title-form">Изменение профиля</div>
                 <div class="outer-form-panel">
                     <div class="form-panel">
@@ -32,7 +32,7 @@
                     <input type="file" accept="image/png, image/jpeg" id="avatar" name="avatar">
                 </div>
                 <div class="btn-div">
-                    <button class="btn-save-change" type="submit">Сохранить изменения</button>
+                    <button id="btn-save-change" class="btn-save-change" type="submit">Сохранить изменения</button>
                 </div>
             </form>
         </div>
