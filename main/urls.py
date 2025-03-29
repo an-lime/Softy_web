@@ -5,13 +5,17 @@ from main import views
 from main.views import PostViewSet
 
 app_name = 'main'
+
+# роутеры
+router = routers.DefaultRouter()
+router.register(r'posts', PostViewSet, basename='posts')
+
+# Основные пути
 urlpatterns: list[URLPattern] = [
     path("", views.index, name="index"),
 ]
 
-router = routers.DefaultRouter()
-router.register(r'posts', PostViewSet, basename='posts')
-
+# Запросы к api
 urlpatterns += [
     path('api/', include(router.urls)),
 ]

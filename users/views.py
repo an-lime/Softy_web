@@ -1,4 +1,5 @@
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponseNotFound
+from django.contrib.auth.models import AnonymousUser
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render
 from django.urls import reverse
 from rest_framework import status, viewsets
@@ -23,11 +24,11 @@ def register(request):
     return render(request, 'users/register.html')
 
 
-def profile(request, user_id=None):
+def profile(request, user_id):
     return render(request, 'users/profile.html')
 
 
-def profile_change(request, user_id=None):
+def profile_change(request):
     return render(request, 'users/profile_change.html')
 
 
@@ -100,6 +101,12 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = Users.objects.all()
     serializer_class = UserSerializer
 
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            return super().retrieve(self, request, *args, **kwargs)
+        except Http404:
+            return HttpResponseNotFound()
+
     def partial_update(self, request, *args, **kwargs):
         super().partial_update(request, *args, **kwargs)
         user_id = kwargs.get('pk')
@@ -111,8 +118,11 @@ class UserViewSet(viewsets.ModelViewSet):
         if request.headers.get('JS-Request') != 'True':
             return HttpResponseNotFound()
 
-        return JsonResponse({'user_id': request.user.id,
-                             'is_authenticated': request.user.is_authenticated,
-                             'first_name': request.user.first_name,
-                             'last_name': request.user.last_name,
-                             'avatar': request.user.avatar.url})
+        if request.user == AnonymousUser():
+            return JsonResponse({'is_authenticated': request.user.is_authenticated})
+        else:
+            return JsonResponse({'user_id': request.user.id,
+                                 'is_authenticated': request.user.is_authenticated,
+                                 'first_name': request.user.first_name,
+                                 'last_name': request.user.last_name,
+                                 'avatar': request.user.avatar.url})

@@ -39,9 +39,16 @@ window.addEventListener('DOMContentLoaded', async () => {
         });
         if (response.ok) {
             const data = await response.json()
-            setAvatar(userAvatarBase, data)
-            const goProfileBtn = document.getElementById('go-profile-btn');
-            goProfileBtn.href = (goProfileBtn.href.replaceAll('None', `${data['user_id']}`))
+            if (data['is_authenticated'] === true) {
+                setAvatar(userAvatarBase, data)
+
+                // создание кнопки перехода на страницу профиля
+                const goProfileBtn = document.createElement('a');
+                goProfileBtn.id = 'go-profile-btn';
+                goProfileBtn.href = `/user/profile/${data['user_id']}`
+                goProfileBtn.text = 'Профиль'
+                userAvatarBase.insertAdjacentElement('afterend', goProfileBtn);
+            }
         }
     } catch (error) {
         alert('Произошла ошибка при загрузке. Попробуйте снова.');

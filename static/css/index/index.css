@@ -84,15 +84,19 @@
     font-size: 15px;
 }
 
-#services-btn-parent {
+.services-btn-parent {
     display: flex;
+    justify-content: space-between;
     position: absolute;
     width: 100%;
     margin-top: 10px;
-    justify-content: right;
 }
 
-#services-btn {
+.div-author {
+    padding-left: 10px;
+}
+
+.services-btn {
 
 }
 

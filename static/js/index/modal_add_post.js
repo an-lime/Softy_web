@@ -17,7 +17,7 @@ document.getElementById('add-post-img').addEventListener('change', (event) => {
 })
 
 // Добавление нового поста
-addPostBtn.addEventListener('click', function (e) {
+addPostBtn.addEventListener('click', async function (e) {
 
     e.preventDefault()
     let postContent = document.getElementById('post_text');
@@ -30,16 +30,19 @@ addPostBtn.addEventListener('click', function (e) {
             formData.append('post_image', fileInput.files[0]);
         }
 
-        fetch('/add-new-post/', {
+        const response = await fetch(`/api/posts/`, {
             method: 'POST',
+            headers: {
+                'JS-Request': 'True',
+            },
             body: formData,
-        })
-            .then(response => response.json())
-            .then(data => {
-                const postsContainer = document.getElementById('right-column-content')
-                postsContainer.insertAdjacentElement("afterbegin", createHtmlPost(data))
-                addMoreButton(1)
-            })
+        });
+        if (response.ok) {
+            const data = await response.json()
+            const postsContainer = document.getElementById('right-column-content')
+            postsContainer.insertAdjacentElement("afterbegin", createHtmlPost(data))
+            addMoreButton(1)
+        }
 
         postContent.value = ''
         fileInput.value = null

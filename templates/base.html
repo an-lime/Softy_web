@@ -23,7 +23,7 @@
                     <img id="user_avatar" src="#"
                          alt="profile_image"
                          class="img_profile">
-                    <a id="go-profile-btn" href="{% url 'user:profile' user_id=None %}">Профиль</a>
+                    {# в base.js создаётся тег "a" для перехода на страницу профиля текущего пользователя #}
                 </div>
             {% else %}
                 <div class="profile-div">
@@ -31,7 +31,7 @@
                     <a href="{% url 'user:register' %}" id="register-a">Регистрация</a>
                 </div>
             {% endif %}
-        
+
             {% if request.user.is_authenticated %}
                 <div id="left-column-content-a" class="left-column-content-a">
                     <a id="btn-your-likes" href="{% url 'main:index' %}">Лента новостей</a>
@@ -51,7 +51,7 @@
             <div id="right-column-content" class="right-column-content">
                 {% block content %}{% endblock %}
             </div>
-        
+
         </div>
     </div>
 </div>

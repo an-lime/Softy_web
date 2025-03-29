@@ -7,8 +7,8 @@
 
 {% block content %}
     <div class="outer-profile">
-        <div class="parent-profile">
-            <div class="div-info">
+        <div id="parent-profile" class="parent-profile">
+            <div id="div-info" class="div-info">
                 <img id="img-profile-menu" src="#" alt="profile_photo">
                 <div class="main-profile-info">
                     <div id="div-fio">
@@ -17,9 +17,9 @@
                     </div>
                 </div>
             </div>
-            <a id="go-change-profile-btn" href="{% url "user:profile_change" %}" class="change-profile-btn"> Изменить профиль</a>
+            {# в profile.js создаётся тег "a" для перехода на страницу изменения профиля текущего пользователя #}
         </div>
     </div>
-    
+
     <script src="{% static "js/users/profile.js" %}"></script>
 {% endblock %}

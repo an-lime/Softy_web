@@ -5,9 +5,8 @@ from users.serializers import UserSerializer
 
 
 class UserPostSerializer(serializers.ModelSerializer):
-    post_text = serializers.CharField()
     post_image = serializers.ImageField(required=False)
-    created_at = serializers.DateTimeField(format='%d-%m-%Y %H:%M:%S')
+    created_at = serializers.DateTimeField(read_only=True)
     author = UserSerializer(read_only=True)
 
     class Meta:

@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from django.http import HttpResponseNotFound, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import render
+from django.utils import timezone
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -33,7 +34,11 @@ class PostViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
 
         last_date_time_str = request.query_params.get('lastDateTime')
-        last_date_time = datetime.strptime(last_date_time_str, '%d-%m-%Y %H:%M:%S')
+        try:
+            dt = datetime.fromisoformat(last_date_time_str)
+            last_date_time = datetime.strptime(dt.strftime("%d-%m-%Y %H:%M:%S"), '%d-%m-%Y %H:%M:%S')
+        except ValueError:
+            last_date_time = datetime.strptime(last_date_time_str, '%d-%m-%Y %H:%M:%S')
         queryset = self.get_queryset()
         queryset = queryset.filter(created_at__lt=last_date_time).order_by('-created_at')[:8]
         serializer = self.get_serializer(queryset, many=True)
@@ -42,9 +47,7 @@ class PostViewSet(viewsets.ModelViewSet):
         post_data_modified = []
         for post in serializer.data:
             post_data = dict(post)
-            post_data['author_name'] = post['author']['first_name']
-            post_data['author_surname'] = post['author']['last_name']
-            post_data['author_ref'] = post['author']['id']
+            post_data['author'] = post['author']
             post_data['post_image'] = post['post_image'] if post['post_image'] else ''
             post_data['post_date'] = post['created_at']
             post_data['is_author'] = True if post['author']['id'] == request.user.id else False
@@ -56,12 +59,11 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
-        data['author'] = request.user.id
+        data['created_at'] = timezone.now()
 
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, data=data)
+        serializer = self.get_serializer(data=data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(author=request.user)
             data = serializer.data.copy()
             data['is_author'] = True
             return Response(data)

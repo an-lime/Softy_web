@@ -1,12 +1,17 @@
-const now = new Date();
-const day = String(now.getDate()).padStart(2, '0');
-const month = String(now.getMonth() + 1).padStart(2, '0');
-const year = now.getFullYear();
-const hours = String(now.getHours()).padStart(2, '0');
-const minutes = String(now.getMinutes()).padStart(2, '0');
-const seconds = String(now.getSeconds()).padStart(2, '0');
+function getCurrentDateTime() {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
 
-let lastDateTime = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`
+}
+
+
+let lastDateTime = getCurrentDateTime();
 let loading = false;
 
 function loadPosts() {
@@ -72,10 +77,10 @@ function addMoreButton(isFirst = 0) {
 function createHtmlPost(post) {
 
     const postElement = document.createElement('div');
-    postElement.id = `post_in_news_feed_${post['id']}_${post['author_ref']}`
+    postElement.id = `post_in_news_feed_${post['id']}_${post['author']['id']}`
     postElement.className = 'post_in_news_feed';
     postElement.innerHTML = `
-                            <div id="container-text" class="container-text">
+                            <div class="container-text">
                                 <div class="middle-container-text">
                                     <div style="word-break: break-all" class="post-text">${post['post_text']}</div>
                                 </div>
@@ -92,14 +97,27 @@ function createHtmlPost(post) {
         post['post_image'] = ""
     }
 
+    const servicesBtnParent = document.createElement('div');
+    servicesBtnParent.className = 'services-btn-parent'
+
+    const divAuthor = document.createElement('div');
+    divAuthor.className = 'div-author'
+    servicesBtnParent.insertAdjacentElement('afterbegin', divAuthor)
+
+    const goAuthorProfile = document.createElement('a');
+    goAuthorProfile.className = 'go-author-profile';
+    goAuthorProfile.href = `/user/profile/${post['author']['id']}`
+    goAuthorProfile.text = `${post['author']['first_name'] + ' ' + post['author']['last_name']}`;
+    divAuthor.appendChild(goAuthorProfile)
+
+    postElement.insertAdjacentElement("afterbegin", servicesBtnParent)
+
     // кнопка удаления, если пользователь - автор поста
     if (post['is_author'] === true) {
-        postElement.insertAdjacentHTML("afterbegin", `<div id="services-btn-parent">
-                                                                        <div id="services-btn">
-                                                                            <label id="delete-post-btn">Удалить</label>
-                                                                        </div>   
-                                                                    </div>`
-        )
+        divAuthor.insertAdjacentHTML('afterend',
+            `<div id="services-btn">
+                    <label id="delete-post-btn">Удалить</label>
+                </div> `)
     }
     return postElement
 }
