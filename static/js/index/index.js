@@ -1,3 +1,5 @@
+let loading = false;
+
 function getCurrentDateTime() {
     const now = new Date();
     const day = String(now.getDate()).padStart(2, '0');
@@ -10,9 +12,7 @@ function getCurrentDateTime() {
     return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`
 }
 
-
 let lastDateTime = getCurrentDateTime();
-let loading = false;
 
 function loadPosts() {
     if (loading) return;
@@ -77,7 +77,7 @@ function addMoreButton(isFirst = 0) {
 function createHtmlPost(post) {
 
     const postElement = document.createElement('div');
-    postElement.id = `post_in_news_feed_${post['id']}_${post['author']['id']}`
+    postElement.id = `post_in_news_feed_${post['id']}`
     postElement.className = 'post_in_news_feed';
     postElement.innerHTML = `
                             <div class="container-text">
@@ -114,11 +114,32 @@ function createHtmlPost(post) {
 
     // кнопка удаления, если пользователь - автор поста
     if (post['is_author'] === true) {
-        divAuthor.insertAdjacentHTML('afterend',
-            `<div id="services-btn">
-                    <label id="delete-post-btn">Удалить</label>
-                </div> `)
+        const divServicesBtn = document.createElement('div');
+        divServicesBtn.id = 'services-btn';
+
+        const deletePostBtn = document.createElement('label');
+        deletePostBtn.id = 'delete-post-btn';
+        deletePostBtn.textContent = 'Удалить';
+
+        deletePostBtn.addEventListener('click', async function ()  {
+            const response = await fetch(`/api/posts/${post['id']}/`, {
+                method: 'DELETE',
+                headers: {
+                    'JS-Request': 'True',
+                }
+            });
+            if (response.ok) {
+                postElement.remove();
+            } else {
+                alert('Ошибка удаления');
+            }
+        })
+
+        divServicesBtn.insertAdjacentElement('afterbegin', deletePostBtn);
+
+        divAuthor.insertAdjacentElement('afterend', divServicesBtn)
     }
+
     return postElement
 }
 
