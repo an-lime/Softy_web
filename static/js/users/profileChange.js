@@ -1,19 +1,3 @@
-// window.addEventListener("load", () => {
-//     fetch('/user/get_current_user/', {
-//         method: 'GET',
-//         headers: {
-//             'JS-Request': 'True',
-//             'Content-Type': 'application/json'
-//         }
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             document.getElementById('first_name').value = data['first_name']
-//             document.getElementById('last_name').value = data['last_name']
-//         })
-// })
-//
-
 const changeForm = document.getElementById('change-form')
 let currentUserId;
 

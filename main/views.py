@@ -4,12 +4,10 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils import timezone
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from main.models import UserPost
 from main.serializers import UserPostSerializer
-from users.authentication import CustomJWTAuthentication
 
 
 # =============================================== #
@@ -25,15 +23,15 @@ def index(request):
 # ==================================== #
 
 class PostViewSet(viewsets.ModelViewSet):
-    authentication_classes = [CustomJWTAuthentication]
-    permission_classes = [IsAuthenticated]
 
     queryset = UserPost.objects.all()
     serializer_class = UserPostSerializer
 
     def list(self, request, *args, **kwargs):
 
+        user_id = request.user.id
         last_date_time_str = request.query_params.get('lastDateTime')
+
         try:
             dt = datetime.fromisoformat(last_date_time_str)
             last_date_time = datetime.strptime(dt.strftime("%d-%m-%Y %H:%M:%S"), '%d-%m-%Y %H:%M:%S')
@@ -44,24 +42,26 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
 
         # модификация данных
-        post_data_modified = []
-        for post in serializer.data:
-            post_data = dict(post)
-            post_data['author'] = post['author']
-            post_data['post_image'] = post['post_image'] if post['post_image'] else ''
-            post_data['post_date'] = post['created_at']
-            post_data['is_author'] = True if post['author']['id'] == request.user.id else False
-            post_data_modified.append(post_data)
+        post_data_modified = [
+            {
+                **post,
+                'post_image': post['post_image'] or '',
+                'post_date': post['created_at'],
+                'is_author': post['author']['id'] == user_id
+            }
+            for post in serializer.data
+        ]
 
         return JsonResponse({
             'posts': post_data_modified,
         })
 
     def create(self, request, *args, **kwargs):
-        data = request.data.copy()
-        data['created_at'] = timezone.now()
 
-        serializer = self.get_serializer(data=data)
+        data_request = request.data.copy()
+        data_request['created_at'] = timezone.now()
+
+        serializer = self.get_serializer(data=data_request)
         if serializer.is_valid():
             serializer.save(author=request.user)
             data = serializer.data.copy()

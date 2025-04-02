@@ -35,8 +35,6 @@
             {% if request.user.is_authenticated %}
                 <div id="left-column-content-a" class="left-column-content-a">
                     <a id="btn-your-likes" href="{% url 'main:index' %}">Лента новостей</a>
-                    <a id="btn-your-likes" href="#">Ваши лайки</a>
-                    <a id="btn-your-comments" href="#">Ваши комментарии</a>
                     <a id="btn-exit" href="{% url 'user:logout' %}">Выйти</a>
                 </div>
             {% endif %}

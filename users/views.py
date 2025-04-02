@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AnonymousUser
+from django.core.cache import cache
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render
 from django.urls import reverse
@@ -33,6 +34,7 @@ def profile_change(request):
 
 
 def logout(request):
+    cache.clear()
     response = HttpResponseRedirect(reverse('user:login'))
     response.delete_cookie('access_token')
     response.delete_cookie('refresh_token')
@@ -102,10 +104,25 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def retrieve(self, request, *args, **kwargs):
+
+        cache_key = f'user_profile_{request.user.id}'
+        if cache_value := cache.get(cache_key):
+            print(request.user.first_name)
+            print('Данные из кеша профиль')
+            return Response(cache_value)
         try:
-            return super().retrieve(self, request, *args, **kwargs)
+            response = super().retrieve(self, request, *args, **kwargs)
+            cache.set(cache_key, response.data, timeout=60 * 5)
+            print('Данные из БД профиль')
+            return response
         except Http404:
             return HttpResponseNotFound()
+
+    def perform_update(self, serializer):
+        # Инвалидация кеша
+        cache.delete(f'user_profile_{serializer.instance.id}')
+        cache.delete(f'user_{serializer.instance.id}')
+        serializer.save()
 
     def partial_update(self, request, *args, **kwargs):
         super().partial_update(request, *args, **kwargs)

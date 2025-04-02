@@ -16,11 +16,13 @@ window.addEventListener("load", async () => {
             }
         });
         if (response.ok) {
+            console.log(response)
             const data = await response.json()
             document.getElementById('user_first_name').textContent = data['first_name']
             document.getElementById('user_last_name').textContent = data['last_name']
             setAvatar(userAvatarProfile, data)
         } else {
+            console.log(response)
             alert('Страницы не существует')
         }
     } catch (error) {
