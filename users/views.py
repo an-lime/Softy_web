@@ -107,13 +107,10 @@ class UserViewSet(viewsets.ModelViewSet):
 
         cache_key = f'user_profile_{request.user.id}'
         if cache_value := cache.get(cache_key):
-            print(request.user.first_name)
-            print('Данные из кеша профиль')
             return Response(cache_value)
         try:
             response = super().retrieve(self, request, *args, **kwargs)
             cache.set(cache_key, response.data, timeout=60 * 5)
-            print('Данные из БД профиль')
             return response
         except Http404:
             return HttpResponseNotFound()

@@ -36,10 +36,8 @@ class JWTAutoRefreshMiddleware:
             cache_key = f'user_{RefreshToken(refresh_token).get('user_id')}'
 
             if cache_value := cache.get(cache_key):
-                print('Данные из кеша мидл')
                 request.user = cache_value
             else:
-                print('Данные из БД мидл')
                 user = jwt_authentication.get_user(validated_token)
                 cache.set(cache_key, user)
                 request.user = user
@@ -55,10 +53,8 @@ class JWTAutoRefreshMiddleware:
                 cache_key = f'user_{RefreshToken(refresh_token).get('user_id')}'
 
                 if cache_value := cache.get(cache_key):
-                    print('Данные из кеша мидл')
                     request.user = cache_value
                 else:
-                    print('Данные из БД мидл')
                     user = jwt_authentication.get_user(validated_token)
                     cache.set(cache_key, user)
                     request.user = user
