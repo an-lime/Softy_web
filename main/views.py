@@ -23,7 +23,6 @@ def index(request):
 # ==================================== #
 
 class PostViewSet(viewsets.ModelViewSet):
-
     queryset = UserPost.objects.all()
     serializer_class = UserPostSerializer
 
