@@ -48,7 +48,3 @@
     ```bash
     python manage.py runserver
     ```
-
-**В базе есть тестовый пользователь:**  
-Логин: `root`  
-Пароль: `root`
